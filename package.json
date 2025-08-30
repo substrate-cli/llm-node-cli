@@ -1,0 +1,25 @@
+{
+  "name": "llm-node",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "substrate",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.60.0",
+    "@langchain/anthropic": "^0.3.26",
+    "@langchain/core": "^0.3.70",
+    "amqplib": "^0.10.8",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "langchain": "^0.3.30",
+    "mongodb": "^6.18.0",
+    "nodemon": "^3.1.10"
+  }
+}

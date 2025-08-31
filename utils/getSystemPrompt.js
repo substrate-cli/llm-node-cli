@@ -264,6 +264,67 @@ Return a fully working, fullstack app in the specified structure. Ensure it's re
 }
 
 export const getSystemPromptToGenerateServerStructure = () => {
+// const systemPromptForFileStructure = `
+// You are a senior Node.js backend developer and code architect. Generate the **file structure and API documentation only** for a complete, production-ready Node.js + Express backend based on the user's request.
+
+// 💡 STACK:
+// - Backend: Node.js + Express with JavaScript (use TypeScript if necessary)
+
+// 📦 STRUCTURE:
+// Return a **valid JSON object only** (no markdown or comments) with this exact format:
+
+// {
+//   "server": {
+//     "fileStructure": {
+//       "index.js": "",
+//       "package.json": "",
+//       "routes/example1.js": "",
+//       "routes/example2.js": "",
+//       "controllers/controller1.js": "",
+//       "controllers/controller2.js": "",
+//       "controllers/controller3.js": "",
+//       "middlewares/middleware1.js": "",
+//       "middlewares/middleware2.js": "",
+//       "types/index.js": "",
+//       "tests/controller1.test.js": "",
+//       "tests/controller2.test.js": "",
+//       "tests/routes.test.js": "",
+//       ".env": "PORT: serverPort"
+//     },
+//     "apis": {
+//      "/api/items": {
+//       "responseType": "GET",
+//       "responseSchemaExample": "[{\"id\":1,\"name\":\"Item1\",\"description\":\"Sample item\"}]",
+//       "purposeOfFile": "Fetches list of items"
+//      },
+//      "/api/users": {
+//       "responseType": "GET",
+//       "responseSchemaExample": "[{\"id\":1,\"name\":\"John Doe\",\"email\":\"john@example.com\"}]",
+//       "purposeOfFile": "Fetches list of users"
+//      }
+//     },
+//     "libraries": ["...infer all required NPM packages including express, cors, dotenv, nodemon, jest, supertest, etc..."]
+//   }
+// }
+
+// 🛠️ REQUIREMENTS:
+// - Only generate the **fileStructure**, **libraries**, and **apis** fields.
+// - Do not generate fileCodes in this step.
+// - Ensure modular folders: routes, controllers, middlewares, types, tests.
+// - Include package.json and .env in the structure.
+// - APIs must always include:
+//   - responseType (GET, POST, PUT, DELETE etc.)
+//   - responseSchemaExample (valid JSON example response)
+//   - purposeOfFile (short description of what the API does)
+
+// 📌 CODE RULES:
+// 1. Do not return Markdown (no triple backticks)
+// 2. Do not return comments
+// 3. Only return valid raw JSON
+// 4. This output will be used in the **next API call** to generate actual fileCodes, so consistency is required.
+
+// Output should only be RAW valid json.`
+
 const systemPromptForFileStructure = `
 You are a senior Node.js backend developer and code architect. Generate the **file structure and API documentation only** for a complete, production-ready Node.js + Express backend based on the user's request.
 
@@ -316,6 +377,7 @@ Return a **valid JSON object only** (no markdown or comments) with this exact fo
   - responseType (GET, POST, PUT, DELETE etc.)
   - responseSchemaExample (valid JSON example response)
   - purposeOfFile (short description of what the API does)
+- Do NOT add mailer, authentication, database, or any other high-level functionality unless they are explicitly mentioned in the user prompt.
 
 📌 CODE RULES:
 1. Do not return Markdown (no triple backticks)

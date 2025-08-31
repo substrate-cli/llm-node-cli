@@ -1,6 +1,6 @@
 import amqp from 'amqplib';
 import { callLLMAPI } from '../src/handlers/llmAPIHandler.js';
-import { getSystemPrompToGenerateServerCode, getSystemPromptToGenerateAppCode, getSystemPromptToGenerateServerStructure } from '../utils/getSystemPrompt.js';
+import { getSystemPromptForUI, getSystemPrompToGenerateServerCode, getSystemPromptToGenerateAppCode, getSystemPromptToGenerateServerStructure } from '../utils/getSystemPrompt.js';
 import appCode from '../src/consumers/app-code.json' with { type: "json" };
 import serverCode from '../src/consumers/server-code.json' with { type: "json" };
 import serverStruct from '../src/consumers/serverstruct.json' with { type: "json" };
@@ -21,7 +21,7 @@ export const setupAMQPConnection = async () => {
       durable: false,  // Not stored if broker restarts
     });
 
-    const ROUTING_KEYS = ["spin.generateServerStruct.llmrequest", "spin.generateServerCode.llmrequest", "spin.generateAppCode.llmrequest"];
+    const ROUTING_KEYS = ["spin.generateServerStruct.llmrequest", "spin.generateServerCode.llmrequest", "spin.generateAppFSCode.llmrequest", "spin.generateAppCode.llmrequest"];
     for (const key of ROUTING_KEYS) {
       await channel.bindQueue(queue, EXCHANGE_NAME, key);
     }
@@ -50,23 +50,26 @@ export const setupAMQPConnection = async () => {
         case "spin.generateServerCode.llmrequest":
           const sysPrompt2 = getSystemPrompToGenerateServerCode()
           llmResponse = await callLLMAPI(prompt, sysPrompt2) 
-          // llmResponse = await timeoutAfter10SecondsAsync()
           // const code1 = serverCode.code
           // llmResponse = {status:'finished', code: code1};
           console.log(JSON.stringify(llmResponse), "sssssssss1111111111")
           break;
-        case "spin.generateAppCode.llmrequest":
+        case "spin.generateAppFSCode.llmrequest":
           let obj = JSON.parse(prompt)
           const userPrompt = obj.userPrompt
           const apiUrl = obj.baseApiUrl
-          const appPort = obj.appPort
           delete obj.userPrompt
           delete obj.baseApiUrl
-          const sysPrompt3 = getSystemPromptToGenerateAppCode(JSON.stringify(obj), apiUrl, appPort)
+          const sysPrompt3 = getSystemPromptToGenerateAppCode(JSON.stringify(obj), apiUrl)
           llmResponse = await callLLMAPI(userPrompt, sysPrompt3)
           // const code2 = appCode.code
           // llmResponse = {status:'finished', code: code2};
-          console.log(JSON.stringify(llmResponse), "sssssssssss22222222")
+          console.log(JSON.stringify(llmResponse), "sssssssss22222222")
+          break;
+        case "spin.generateAppCode.llmrequest":
+          const systemPrompt4 = getSystemPromptForUI()
+          llmResponse = await callLLMAPI(prompt, systemPrompt4)
+          console.log(JSON.stringify(llmResponse), "sssssss3333333333")
           break;
         default:
           llmResponse = {status:'failed', error:`❌ Unknown routing key: ${routingKey}`};

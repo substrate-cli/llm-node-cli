@@ -1,15 +1,15 @@
+import { getCurrentModel } from "../../utils/configuration.js";
 import CodeGeneration from "../consumers/codeGenerationConsumer.js";
 
 let errorCount = 0;
 
 export async function callLLMAPI(prompt, sysPrompt) {
   errorCount++;
-  console.log("uuuuuuuuuuuu")
   let responsetoconsumer = {};
-
+  const model = getCurrentModel()
   if (errorCount < 4) {
     try {
-      const codeGen = new CodeGeneration(prompt, "anthropic", sysPrompt);
+      const codeGen = new CodeGeneration(prompt, model, sysPrompt);
       const res = await codeGen.initiateGeneration();
 
       if (res?.status === "finished") {

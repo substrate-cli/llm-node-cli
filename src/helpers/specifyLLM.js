@@ -1,5 +1,6 @@
 import { ChatAnthropic } from "@langchain/anthropic";
-import { getAnthropicKey, getOpenAIKey } from "../../utils/configuration.js";
+import { ChatOpenAI } from "@langchain/openai";
+import { getAnthropicKey, getApiKey, getMode, getOpenAIKey, getSupportedModels } from "../../utils/configuration.js";
 
 export const modelSelection = (model) => {
   let selectedModel;
@@ -17,10 +18,18 @@ export const modelSelection = (model) => {
   return selectedModel;
 }
 
+export const checkIfValidModel = (model) => {
+  const supportedModels = getSupportedModels().split(",")
+  return supportedModels.includes(model)
+}
+
 const getAnthropicModel = () => {
   const latest = "claude-opus-4-1-20250805"//4.1
   const old = "claude-opus-4-20250514" //4
-  const key = getAnthropicKey()
+  let key = getAnthropicKey()
+  if (getApiKey() !== "no-value" && getMode() == "cli") {
+    key = getApiKey()
+  }
   const model = new ChatAnthropic({
     anthropicApiKey: key,
     model: latest,
@@ -33,7 +42,10 @@ const getAnthropicModel = () => {
 }
 
 const getOpenAIModel = () => {
-  const key = getOpenAIKey()
+  let key = getOpenAIKey()
+  if (getApiKey() !== "no-value" && getMode() == "cli") {
+    key = getApiKey()
+  }
   const model = new ChatOpenAI({
     openAIApiKey: key,
     modelName: "gpt-5", // or "gpt-4-turbo", "gpt-3.5-turbo", etc.
@@ -42,3 +54,4 @@ const getOpenAIModel = () => {
   return model
 }
  
+

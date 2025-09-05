@@ -1,9 +1,12 @@
 import amqp from 'amqplib';
 import { callLLMAPI } from '../src/handlers/llmAPIHandler.js';
 import { getSystemPromptForUI, getSystemPrompToGenerateServerCode, getSystemPromptToGenerateAppCode, getSystemPromptToGenerateServerStructure } from '../utils/getSystemPrompt.js';
-import appCode from '../src/consumers/app-code.json' with { type: "json" };
+import appCode from '../src/consumers/app-code-openai.json' with { type: "json" };
 import serverCode from '../src/consumers/server-code.json' with { type: "json" };
 import serverStruct from '../src/consumers/serverstruct.json' with { type: "json" };
+import ui from '../src/consumers/appui-code.json' with {type:"json"};
+import { getCurrentModel, getDefaultLLM, getEnvironment, getMode, setApiKey, setCurrentModel } from '../utils/configuration.js';
+import { checkIfValidModel } from '../src/helpers/specifyLLM.js';
 
 export const setupAMQPConnection = async () => {
 
@@ -36,39 +39,78 @@ export const setupAMQPConnection = async () => {
 
       console.log(`📥 Received (${routingKey}): "${prompt}" [correlationId: ${correlationId}]`);
       let llmResponse;
+      let isError = false;
+      console.log(prompt,routingKey, "fffffffffffffrrrrrrrrrrrrrrrrrrrrr")
+      try {
+        let struct = JSON.parse(prompt)
+          const key = struct?.["apiKey"]
+          const model = struct?.["model"]
+          if (model == "") {
+            setCurrentModel(getDefaultLLM)
+          }
+          const isValid = checkIfValidModel(model)
+          if (isValid) {
+            setCurrentModel(model)
+          } else {
+            isError = true
+            throw new Error("provided LLM is unsupported or is mispelled.")
+          }
+          console.log(model, "mmmmmmmmmmm")
+          if(key !== undefined) {
+            setApiKey(key)
+          }
 
+      } catch(err) {
+        console.log("error parsing prompt struct")
+        console.log(err)
+      }
+     if(!isError) {
       switch (routingKey) {
         case "spin.generateServerStruct.llmrequest":
-          const sysPrompt1 = getSystemPromptToGenerateServerStructure()
-
-          llmResponse = await callLLMAPI(prompt, sysPrompt1)
-          // llmResponse = {status:"finished", code:jsonRes}
-          // const struct = serverStruct.code
-          // llmResponse = {status:'finished', code: struct};
-          console.log(JSON.stringify(llmResponse), "sssssss000000000")
+          if (getEnvironment() == "unitTest") {
+            const struct = serverStruct.code
+            llmResponse = {status:'finished', code: struct};
+          } else {
+            const sysPrompt1 = getSystemPromptToGenerateServerStructure()
+            let serverStructObj = JSON.parse(prompt)
+            llmResponse = await callLLMAPI(serverStructObj.prompt, sysPrompt1)
+          }
+           console.log(JSON.stringify(llmResponse), "sssssss000000000")
           break;
         case "spin.generateServerCode.llmrequest":
-          const sysPrompt2 = getSystemPrompToGenerateServerCode()
-          llmResponse = await callLLMAPI(prompt, sysPrompt2) 
-          // const code1 = serverCode.code
-          // llmResponse = {status:'finished', code: code1};
+          console.log("kkkkkkkkkkkooooooooooo")
+          if (getEnvironment() == "unitTest") {
+           const code1 = serverCode.code
+           llmResponse = {status:'finished', code: code1};
+          } else {
+            const sysPrompt2 = getSystemPrompToGenerateServerCode()
+            llmResponse = await callLLMAPI(prompt, sysPrompt2) 
+          }
           console.log(JSON.stringify(llmResponse), "sssssssss1111111111")
           break;
         case "spin.generateAppFSCode.llmrequest":
-          let obj = JSON.parse(prompt)
-          const userPrompt = obj.userPrompt
-          const apiUrl = obj.baseApiUrl
-          delete obj.userPrompt
-          delete obj.baseApiUrl
-          const sysPrompt3 = getSystemPromptToGenerateAppCode(JSON.stringify(obj), apiUrl)
-          llmResponse = await callLLMAPI(userPrompt, sysPrompt3)
-          // const code2 = appCode.code
-          // llmResponse = {status:'finished', code: code2};
+           if (getEnvironment() == "unitTest") {
+             const code2 = appCode.code
+             llmResponse = {status:'finished', code: code2};
+          } else {
+             let obj = JSON.parse(prompt)
+             const userPrompt = obj.userPrompt
+             const apiUrl = obj.baseApiUrl
+             delete obj.userPrompt
+             delete obj.baseApiUrl
+             const sysPrompt3 = getSystemPromptToGenerateAppCode(JSON.stringify(obj), apiUrl)
+             llmResponse = await callLLMAPI(userPrompt, sysPrompt3)
+          }
           console.log(JSON.stringify(llmResponse), "sssssssss22222222")
           break;
         case "spin.generateAppCode.llmrequest":
-          const systemPrompt4 = getSystemPromptForUI()
-          llmResponse = await callLLMAPI(prompt, systemPrompt4)
+          if (getEnvironment() == "unitTest") {
+            const code3 = ui.code
+            llmResponse = {status:'finished', code: code3}
+          } else {
+            const systemPrompt4 = getSystemPromptForUI()
+            llmResponse = await callLLMAPI(prompt, systemPrompt4)
+          }
           console.log(JSON.stringify(llmResponse), "sssssss3333333333")
           break;
         default:
@@ -80,15 +122,15 @@ export const setupAMQPConnection = async () => {
       // const llmResponse = await callLLMAPI(prompt);
 
       // Send the result back to the replyTo queue
-      channel.sendToQueue(replyTo, Buffer.from(JSON.stringify(llmResponse)), {
+       channel.sendToQueue(replyTo, Buffer.from(JSON.stringify(llmResponse)), {
         replyTo:"spin.llmreply",
         correlationId, // Pass correlationId back for matching
         persistent: true, // Persist message in case of broker restart
-      });
-
+       });
+     }
       // Acknowledge the message
       channel.ack(msg);
-
+      setApiKey("no-value")
       console.log(`📤 Sent LLM response back to ${replyTo} (correlationId: ${correlationId})`);
     });
 

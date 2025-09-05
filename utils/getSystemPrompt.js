@@ -437,7 +437,7 @@ Return a **valid JSON object only** (no markdown or comments) with this exact fo
 5. Ensure all APIs return JSON responses matching the schema examples from the appDescription
 6. Maintain modular folder structure and consistency
 7. Populate the "libraries" array with all npm packages used in the project
-8. Use image URLs from trusted sources like Unsplash or other CDNs
+8. Use image URLs from trusted sources like Unsplash or other CDNs for mock data, dont put setup for local images only image urls in mock data
 
 Your task: Take the **fileStructure** and **appDescription** provided in the user prompt, and generate the **fileCodes** JSON with complete backend code, plus the libraries list.
 `
@@ -468,24 +468,24 @@ const sysPrompt = `You are a senior frontend engineer and UI architect. Generate
 ${backendStruct}
 
 📦 STRUCTURE:
-Return a **valid JSON object only** (no markdown or comments) with this exact format:
-
-{
-  "app": {
-    "fileStructure":{
-      "src/app/page.tsx":{"code": <code>},
-      "src/app/layout.tsx":{"code": <code>},
-      "src/app/components/Component1.tsx":{"code": <code>},
-      "src/app/components/Component2.tsx":{"code": <code>},
-      "src/app/components/Component3.tsx":{"code": <code>},
-      "src/app/utils/data.ts":{"code": <code>},
-      "src/app/globals.css":{"code": <code>},
-      "tailwind.config.js":{"code": <code>},
-      "next.config.ts":{"code": <code>}
-    },
-    "libraries": ["...infer all required NPM packages used in the frontend code icon libraries, utilities, etc, dont include tailwind, next js, postcss, autoprefixer, typescript, just include libraries which are necessary..."]
+  Return a **valid JSON object only** (no markdown or comments) with this exact format:  
+  {
+    "app": {
+      "fileStructure": {
+        "src/app/page.tsx": { "code": <code> },
+        "src/app/layout.tsx": { "code": <code> },
+        "src/app/components/<AnyMeaningfulComponentName>.tsx": { "code": <code> },
+        "src/app/components/<AnyOtherNeededComponent>.tsx": { "code": <code> },
+        "src/app/utils/data.ts": { "code": <code> },
+        "src/app/globals.css": { "code": <code> },
+        "tailwind.config.js": { "code": <code> },
+        "next.config.ts": { "code": <code> }
+      },
+      "libraries": ["..."]
+    }
   }
-}
+- The number of components is not fixed. Create as many components as necessary for a clean, modular, and production-ready UI.
+- Component filenames must always be descriptive and meaningful (e.g., "ProjectCard.tsx", "SkillBadge.tsx", "ContactForm.tsx") rather than generic names like Component1, Component2, etc.
 
 🔌 DATA/UTILS IMPLEMENTATION REQUIREMENTS:
 - "src/app/utils/data.ts" MUST export:
@@ -570,23 +570,24 @@ export const getSystemPromptForUI = () => {
 - Ensure full responsiveness using Tailwind breakpoints ("sm:", "md:", "lg:", etc.)
 
 📦 STRUCTURE:
-Return a **valid JSON object only** (no markdown or comments) with this exact format:
-
-{
-  "app": {
-    "fileStructure": {
-      "src/app/page.tsx":{"code":"// Main page logic"},
-      "src/app/layout.tsx":{"code":"// Root layout"},
-      "src/app/components/Component1.tsx":{"code":"// Fully functional component"},
-      "src/app/components/Component2.tsx":{"code":"// Fully functional component"},
-      "src/app/components/Component3.tsx":{"code":"// Fully functional component"},
-      "src/app/utils/data.ts":{"code":"// Static fallback or utility types"},
-      "src/app/globals.css":{"code":"/* Complete CSS code here */"},
-      "tailwind.config.js":{"code":"// Tailwind config with custom colors"}
-    },
-    "libraries": ["...infer all required NPM packages used in the frontend code including Tailwind CSS, icon libraries, utilities, etc..."]
+  Return a **valid JSON object only** (no markdown or comments) with this exact format:  
+  {
+    "app": {
+      "fileStructure": {
+        "src/app/page.tsx": { "code": <code> },
+        "src/app/layout.tsx": { "code": <code> },
+        "src/app/components/<AnyMeaningfulComponentName>.tsx": { "code": <code> },
+        "src/app/components/<AnyOtherNeededComponent>.tsx": { "code": <code> },
+        "src/app/utils/data.ts": { "code": <code> },
+        "src/app/globals.css": { "code": <code> },
+        "tailwind.config.js": { "code": <code> },
+        "next.config.ts": { "code": <code> }
+      },
+      "libraries": ["..."]
+    }
   }
-}
+- The number of components is not fixed. Create as many components as necessary for a clean, modular, and production-ready UI.
+- Component filenames must always be descriptive and meaningful (e.g., "ProjectCard.tsx", "SkillBadge.tsx", "ContactForm.tsx") rather than generic names like Component1, Component2, etc.
 
 📋 FRONTEND REQUIREMENTS:
 - Use Next.js App Router

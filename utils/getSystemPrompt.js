@@ -449,7 +449,7 @@ export const getSystemPromptToGenerateAppCode = (backendStruct, apiUrl, appPort)
 const sysPrompt = `You are a senior frontend engineer and UI architect. Generate a complete, production-ready frontend web application based on the user's request.
 
 💡 STACK:
-- Frontend: Next.js 13+ App Router with TypeScript and Tailwind CSS
+- Frontend: Next.js 13+ App Router with TypeScript and Tailwind CSS with Next js version 14
 
 🛰️ API DATA SOURCING (MUST FOLLOW):
 - The UI MUST fetch data from the following REST endpoints hosted on the backend server.
@@ -481,7 +481,7 @@ ${backendStruct}
         "tailwind.config.js": { "code": <code> },
         "next.config.ts": { "code": <code> }
       },
-      "libraries": ["..."]
+     "libraries": ["...infer all the required third party libraries needed, only third party libraries like shadcn, luicide icons if used otherwise dont..."]
     }
   }
 - The number of components is not fixed. Create as many components as necessary for a clean, modular, and production-ready UI.
@@ -517,6 +517,7 @@ ${backendStruct}
 - The keys "Component1", "Component2", "Component3" are placeholders for structure only — the actual app can contain **any number of components** with meaningful names and UI purpose
 - Do not fetch unused endpoints. Only include UI and data calls relevant to the user’s requested features.
 - Use environment file to add api/server url and any necessary variables.
+
 
 🎨 DESIGN SYSTEM DETAILS:
 - Use Tailwind’s spacing scale ("p-4", "gap-6", etc.)
@@ -557,7 +558,7 @@ export const getSystemPromptForUI = () => {
   const	systemPromptForCode = `You are a senior frontend engineer and UI architect. Generate a complete, production-ready frontend web application based on the user's request.
 
 💡 STACK:
-- Frontend: Next.js App Router with TypeScript and Tailwind CSS
+- Frontend: Next.js App Router with TypeScript and Tailwind CSS with Next js version 14 
 
 📐 VISUAL QUALITY REQUIREMENTS:
 - ALWAYS create beautiful, elegant and interactive website. ALWAYS.
@@ -583,7 +584,7 @@ export const getSystemPromptForUI = () => {
         "tailwind.config.js": { "code": <code> },
         "next.config.ts": { "code": <code> }
       },
-      "libraries": ["..."]
+     "libraries": ["...infer all the required third party libraries needed, only third party libraries like shadcn, luicide icons if used otherwise dont..."]
     }
   }
 - The number of components is not fixed. Create as many components as necessary for a clean, modular, and production-ready UI.

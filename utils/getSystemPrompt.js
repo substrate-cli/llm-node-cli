@@ -443,6 +443,8 @@ ${backendStruct}
     - POST: fetch("${apiUrl}/...",{ method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).
   - Runtime validation (basic) and safe parsing with try/catch. On error, throw a descriptive Error read by the UI.
 - Components MUST implement explicit loading/empty/error states when calling these helpers.
+- Never generate standalone CSS classes like ".card { ... }" unless explicitly declared in theme.extend.  
+
 
 📋 FRONTEND REQUIREMENTS:
 - Use Next.js 13+ App Router
@@ -473,6 +475,9 @@ ${backendStruct}
 - Ensure these colors are usable as Tailwind utility classes (e.g., "text-primary", "bg-surface", "text-muted", etc.)
 - Do not use custom classes unless they are explicitly defined in "theme.extend.colors"
 - Use only default Tailwind class names (e.g., "text-gray-900", "border-gray-200") unless declared in config
+- Any non-default Tailwind color utility (e.g., "text-primary", "bg-surface") MUST have a corresponding entry in "theme.extend.colors".
+- Do NOT introduce custom class names outside of Tailwind utilities. Only Tailwind’s default utilities or those explicitly defined in "theme.extend.colors" are allowed.
+- If a required utility does not exist, update "theme.extend.colors" first — never create arbitrary CSS classes.
 
 🌐 GLOBALS.CSS REQUIREMENTS:
 - Must contain Tailwind base directives and custom class definitions inside "@layer" blocks
@@ -480,6 +485,12 @@ ${backendStruct}
   @tailwind base;
   @tailwind components;
   @tailwind utilities;
+- Any additional custom styles MUST be inside @layer blocks (e.g., @layer base, @layer components, @layer utilities).
+- Custom selectors/classes in globals.css are STRICTLY FORBIDDEN unless they map to theme tokens (colors, spacing, typography) already defined in tailwind.config.js.
+- If a class is referenced in globals.css, you MUST ensure it is either:
+  1. A default Tailwind utility class, OR
+  2. A custom utility generated from tailwind.config.js (e.g., text-primary, bg-surface).
+- Never generate standalone CSS classes like ".card { ... }" unless explicitly declared in theme.extend.  
 
 📌 CODE RULES:
 1. Do not return Markdown (no triple backticks)
@@ -611,6 +622,7 @@ export const getSystemPromptForClone = () => {
 * Use Tailwind utility classes wherever possible; avoid unnecessary custom CSS
 * If not font is provided or if the provided font is roboto or arial, choose a different nice looking font depending upon the genre of website.
 * Dont implement clone as it is, make the website look good and elegant overall.
+* Never generate standalone CSS classes like ".card { ... }" unless explicitly declared in theme.extend.  
 
 📦 STRUCTURE:
 Return a **valid JSON object only** (no markdown or comments) with this exact format. Every file entry is an object with three fields:
@@ -677,6 +689,9 @@ Return a **valid JSON object only** (no markdown or comments) with this exact fo
 - Ensure these colors are usable as Tailwind utility classes (e.g., "text-primary", "bg-surface", "text-muted", etc.)
 - Do not use custom classes unless they are explicitly defined in "theme.extend.colors"
 - Use only default Tailwind class names (e.g., "text-gray-900", "border-gray-200") unless declared in config
+- Any non-default Tailwind color utility (e.g., "text-primary", "bg-surface") MUST have a corresponding entry in "theme.extend.colors".
+- Do NOT introduce custom class names outside of Tailwind utilities. Only Tailwind’s default utilities or those explicitly defined in "theme.extend.colors" are allowed.
+- If a required utility does not exist, update "theme.extend.colors" first — never create arbitrary CSS classes.
 
 🌐 GLOBALS.CSS REQUIREMENTS:
 - Must contain Tailwind base directives and custom class definitions inside "@layer" blocks
@@ -684,6 +699,12 @@ Return a **valid JSON object only** (no markdown or comments) with this exact fo
   @tailwind base;
   @tailwind components;
   @tailwind utilities;
+- Any additional custom styles MUST be inside @layer blocks (e.g., @layer base, @layer components, @layer utilities).
+- Custom selectors/classes in globals.css are STRICTLY FORBIDDEN unless they map to theme tokens (colors, spacing, typography) already defined in tailwind.config.js.
+- If a class is referenced in globals.css, you MUST ensure it is either:
+  1. A default Tailwind utility class, OR
+  2. A custom utility generated from tailwind.config.js (e.g., text-primary, bg-surface).
+- Never generate standalone CSS classes like ".card { ... }" unless explicitly declared in theme.extend.  
 
   Never create circular @apply rules; define custom colors in tailwind.config.js (theme.extend.colors) and let Tailwind generate utilities instead of re-defining them in globals.css.
 

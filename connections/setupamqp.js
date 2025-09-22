@@ -1,10 +1,6 @@
 import amqp from 'amqplib';
 import { callLLMAPI } from '../src/handlers/llmAPIHandler.js';
-import { getSystemPromptForUI, getSystemPrompToGenerateServerCode, getSystemPromptToGenerateAppCode, getSystemPromptToGenerateServerStructure } from '../utils/getSystemPrompt.js';
-import appCode from '../src/consumers/app-code-openai.json' with { type: "json" };
-import serverCode from '../src/consumers/server-code.json' with { type: "json" };
-import serverStruct from '../src/consumers/serverstruct.json' with { type: "json" };
-import ui from '../src/consumers/appui-code.json' with {type:"json"};
+import { getSystemPromptForClone, getSystemPromptForUI, getSystemPrompToGenerateServerCode, getSystemPromptToGenerateAppCode, getSystemPromptToGenerateServerStructure } from '../utils/getSystemPrompt.js';
 import { getCurrentModel, getDefaultLLM, getEnvironment, getMode, setApiKey, setCurrentModel } from '../utils/configuration.js';
 import { checkIfValidModel } from '../src/helpers/specifyLLM.js';
 
@@ -24,7 +20,7 @@ export const setupAMQPConnection = async () => {
       durable: false,  // Not stored if broker restarts
     });
 
-    const ROUTING_KEYS = ["spin.generateServerStruct.llmrequest", "spin.generateServerCode.llmrequest", "spin.generateAppFSCode.llmrequest", "spin.generateAppCode.llmrequest"];
+    const ROUTING_KEYS = ["spin.generateServerStruct.llmrequest", "spin.generateServerCode.llmrequest", "spin.generateAppFSCode.llmrequest", "spin.generateAppCode.llmrequest", "spin.generateCloneAppCode.llmrequest"];
     for (const key of ROUTING_KEYS) {
       await channel.bindQueue(queue, EXCHANGE_NAME, key);
     }
@@ -78,7 +74,6 @@ export const setupAMQPConnection = async () => {
            console.log(JSON.stringify(llmResponse), "sssssss000000000")
           break;
         case "spin.generateServerCode.llmrequest":
-          console.log("kkkkkkkkkkkooooooooooo")
           if (getEnvironment() == "unitTest") {
            const code1 = serverCode.code
            llmResponse = {status:'finished', code: code1};
@@ -112,6 +107,16 @@ export const setupAMQPConnection = async () => {
             llmResponse = await callLLMAPI(prompt, systemPrompt4)
           }
           console.log(JSON.stringify(llmResponse), "sssssss3333333333")
+          break;
+        case "spin.generateCloneAppCode.llmrequest":
+          if (getEnvironment() == "unitTest") {
+            const code3 = ui.code
+            llmResponse = {status:'finished', code: code3}
+          } else {
+            const systemPrompt5 = getSystemPromptForClone()
+            llmResponse = await callLLMAPI(prompt, systemPrompt5)
+            console.log(JSON.stringify(llmResponse), "ssssssssssssss444444444")
+          }
           break;
         default:
           llmResponse = {status:'failed', error:`❌ Unknown routing key: ${routingKey}`};

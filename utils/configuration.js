@@ -11,6 +11,10 @@ export const getApiKey = () => {
   return apiKey;
 }
 
+export const getAPIServerUrl = () => {
+  return process.env.API_SERVER_URL;
+}
+
 export const getPort = () => {
   return process.env.PORT || 3000;
 }

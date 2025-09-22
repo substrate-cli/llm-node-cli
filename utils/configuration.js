@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 let apiKey = "no-value"
 let currentModel = "";
+let EXCHANGE_NAME = "dev.topic.spinrequest"
 
 export const setApiKey = (key) => {
    apiKey = key;
@@ -9,6 +10,18 @@ export const setApiKey = (key) => {
 
 export const getApiKey = () => {
   return apiKey;
+}
+
+export const getExchangeName = () => {
+  return EXCHANGE_NAME;
+}
+
+export const getAMQPURL = () => {
+  return process.env.AMPQP_URL
+}
+
+export const getSafeOrigins = () => {
+  return process.env.SAFE_ORIGINS
 }
 
 export const getAPIServerUrl = () => {

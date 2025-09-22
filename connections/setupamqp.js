@@ -1,16 +1,16 @@
 import amqp from 'amqplib';
 import { callLLMAPI } from '../src/handlers/llmAPIHandler.js';
 import { getSystemPromptForClone, getSystemPromptForUI, getSystemPrompToGenerateServerCode, getSystemPromptToGenerateAppCode, getSystemPromptToGenerateServerStructure } from '../utils/getSystemPrompt.js';
-import { getCurrentModel, getDefaultLLM, getEnvironment, getMode, setApiKey, setCurrentModel } from '../utils/configuration.js';
+import { getAMQPURL, getCurrentModel, getDefaultLLM, getEnvironment, getExchangeName, getMode, setApiKey, setCurrentModel } from '../utils/configuration.js';
 import { checkIfValidModel } from '../src/helpers/specifyLLM.js';
 
 export const setupAMQPConnection = async () => {
 
-  const RABBITMQ_URL = "amqp://guest:guest@localhost:5672/";
-  const EXCHANGE_NAME = "dev.topic.spinrequest";
+  const amqpUrl = getAMQPURL();
+  const EXCHANGE_NAME = getExchangeName();
 
   try {
-    const connection = await amqp.connect(RABBITMQ_URL)
+    const connection = await amqp.connect(amqpUrl)
     const channel = await connection.createChannel()
     
     await channel.assertExchange(EXCHANGE_NAME, "topic", { durable: true });
@@ -36,7 +36,6 @@ export const setupAMQPConnection = async () => {
       console.log(`📥 Received (${routingKey}): "${prompt}" [correlationId: ${correlationId}]`);
       let llmResponse;
       let isError = false;
-      console.log(prompt,routingKey, "fffffffffffffrrrrrrrrrrrrrrrrrrrrr")
       try {
         let struct = JSON.parse(prompt)
           const key = struct?.["apiKey"]
@@ -51,7 +50,6 @@ export const setupAMQPConnection = async () => {
             isError = true
             throw new Error("provided LLM is unsupported or is mispelled.")
           }
-          console.log(model, "mmmmmmmmmmm")
           if(key !== undefined) {
             setApiKey(key)
           }

@@ -17,7 +17,7 @@ export const getExchangeName = () => {
 }
 
 export const getAMQPURL = () => {
-  return process.env.AMPQP_URL
+  return process.env.AMQP_URL
 }
 
 export const getSafeOrigins = () => {

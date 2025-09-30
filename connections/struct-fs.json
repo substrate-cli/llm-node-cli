@@ -1,0 +1,92 @@
+{
+  "status": "finished",
+  "code": {
+    "server": {
+      "fileStructure": {
+        "index.js": "",
+        "package.json": "",
+        "routes/portfolio.routes.js": "",
+        "routes/contact.routes.js": "",
+        "routes/skills.routes.js": "",
+        "controllers/portfolio.controller.js": "",
+        "controllers/contact.controller.js": "",
+        "controllers/skills.controller.js": "",
+        "middlewares/errorHandler.js": "",
+        "middlewares/validation.js": "",
+        "middlewares/cors.js": "",
+        "data/mockData.js": "",
+        "types/index.js": "",
+        "tests/portfolio.controller.test.js": "",
+        "tests/contact.controller.test.js": "",
+        "tests/skills.controller.test.js": "",
+        "tests/routes.test.js": "",
+        ".env": "PORT=3001"
+      },
+      "apis": {
+        "/api/portfolio/projects": {
+          "responseType": "GET",
+          "responseSchemaExample": "[{\"id\":1,\"title\":\"E-commerce Platform\",\"description\":\"Full-stack web application\",\"technologies\":[\"React\",\"Node.js\",\"MongoDB\"],\"imageUrl\":\"https://example.com/project1.jpg\",\"liveUrl\":\"https://project1.com\",\"githubUrl\":\"https://github.com/user/project1\"}]",
+          "purposeOfFile": "Fetches all portfolio projects"
+        },
+        "/api/portfolio/projects/:id": {
+          "responseType": "GET",
+          "responseSchemaExample": "{\"id\":1,\"title\":\"E-commerce Platform\",\"description\":\"Full-stack web application\",\"technologies\":[\"React\",\"Node.js\",\"MongoDB\"],\"imageUrl\":\"https://example.com/project1.jpg\",\"liveUrl\":\"https://project1.com\",\"githubUrl\":\"https://github.com/user/project1\",\"details\":\"Detailed project description\"}",
+          "purposeOfFile": "Fetches a single project by ID"
+        },
+        "/api/portfolio/about": {
+          "responseType": "GET",
+          "responseSchemaExample": "{\"name\":\"John Doe\",\"title\":\"Full Stack Developer\",\"bio\":\"Passionate developer with 5 years of experience\",\"email\":\"john@example.com\",\"location\":\"San Francisco, CA\",\"profileImage\":\"https://example.com/profile.jpg\"}",
+          "purposeOfFile": "Fetches about/profile information"
+        },
+        "/api/skills": {
+          "responseType": "GET",
+          "responseSchemaExample": "[{\"id\":1,\"category\":\"Frontend\",\"skills\":[{\"name\":\"React\",\"level\":90},{\"name\":\"Vue.js\",\"level\":75}]},{\"id\":2,\"category\":\"Backend\",\"skills\":[{\"name\":\"Node.js\",\"level\":85},{\"name\":\"Python\",\"level\":70}]}]",
+          "purposeOfFile": "Fetches all skills grouped by category"
+        },
+        "/api/contact": {
+          "responseType": "POST",
+          "responseSchemaExample": "{\"success\":true,\"message\":\"Message sent successfully\",\"data\":{\"id\":\"msg_123\",\"timestamp\":\"2024-01-15T10:30:00Z\"}}",
+          "purposeOfFile": "Submits contact form message"
+        },
+        "/api/contact/messages": {
+          "responseType": "GET",
+          "responseSchemaExample": "[{\"id\":1,\"name\":\"Jane Smith\",\"email\":\"jane@example.com\",\"subject\":\"Project Inquiry\",\"message\":\"I would like to discuss a project\",\"timestamp\":\"2024-01-15T10:30:00Z\",\"read\":false}]",
+          "purposeOfFile": "Fetches all contact messages"
+        },
+        "/api/portfolio/experience": {
+          "responseType": "GET",
+          "responseSchemaExample": "[{\"id\":1,\"company\":\"Tech Corp\",\"position\":\"Senior Developer\",\"startDate\":\"2020-01\",\"endDate\":\"2023-12\",\"description\":\"Led development of multiple web applications\",\"technologies\":[\"React\",\"Node.js\"]}]",
+          "purposeOfFile": "Fetches work experience history"
+        },
+        "/api/portfolio/education": {
+          "responseType": "GET",
+          "responseSchemaExample": "[{\"id\":1,\"institution\":\"University of Technology\",\"degree\":\"Bachelor of Computer Science\",\"startDate\":\"2016\",\"endDate\":\"2020\",\"description\":\"Graduated with honors\"}]",
+          "purposeOfFile": "Fetches education history"
+        },
+        "/api/portfolio/testimonials": {
+          "responseType": "GET",
+          "responseSchemaExample": "[{\"id\":1,\"name\":\"Sarah Johnson\",\"position\":\"CEO at StartupXYZ\",\"text\":\"Excellent developer with great attention to detail\",\"rating\":5,\"imageUrl\":\"https://example.com/testimonial1.jpg\"}]",
+          "purposeOfFile": "Fetches client testimonials"
+        }
+      },
+      "libraries": [
+        "express",
+        "cors",
+        "dotenv",
+        "helmet",
+        "morgan",
+        "express-validator",
+        "express-rate-limit",
+        "compression",
+        "nodemon",
+        "jest",
+        "supertest",
+        "@types/jest",
+        "@types/supertest",
+        "@types/express",
+        "@types/node",
+        "@types/cors"
+      ]
+    }
+  }
+}

@@ -38,7 +38,6 @@ export async function callLLMAPI(prompt, sysPrompt) {
     try {
       const codeGen = new CodeGeneration(prompt, model, sysPrompt);
       const res = await codeGeneration(codeGen, 0)
-      
       if (res?.status === "finished") {
         responsetoconsumer.status = "finished";
         responsetoconsumer.code = res.code

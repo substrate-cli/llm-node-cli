@@ -53,6 +53,12 @@ export const setupAMQPConnection = async () => {
             setCurrentModel(model)
           } else {
             isError = true
+            llmResponse = {status:'failed', error:'provided LLM is unsupported or is mispelled'}
+              channel.sendToQueue(replyTo, Buffer.from(JSON.stringify(llmResponse)), {
+               replyTo:"spin.llmreply",
+               correlationId, // Pass correlationId back for matching
+               persistent: true, // Persist message in case of broker restart
+            });
             throw new Error("provided LLM is unsupported or is mispelled.")
           }
           if(key !== undefined) {
@@ -133,6 +139,7 @@ export const setupAMQPConnection = async () => {
       }
 
       // Send the result back to the replyTo queue
+      
        channel.sendToQueue(replyTo, Buffer.from(JSON.stringify(llmResponse)), {
         replyTo:"spin.llmreply",
         correlationId, // Pass correlationId back for matching

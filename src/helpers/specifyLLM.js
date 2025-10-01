@@ -1,6 +1,7 @@
 import { ChatAnthropic } from "@langchain/anthropic";
 import { ChatOpenAI } from "@langchain/openai";
-import { getAnthropicKey, getApiKey, getMode, getOpenAIKey, getSupportedModels } from "../../utils/configuration.js";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { getAnthropicKey, getApiKey, getMode, getOpenAIKey, getSupportedModels, getGeminiKey } from "../../utils/configuration.js";
 
 export const modelSelection = (model) => {
   let selectedModel;
@@ -11,6 +12,8 @@ export const modelSelection = (model) => {
     case 'openai':
         selectedModel = getOpenAIModel()
         break;
+    case 'gemini':
+       selectedModel = getGeminiModel()    
     default:
         break;
   }
@@ -19,7 +22,8 @@ export const modelSelection = (model) => {
 }
 
 export const checkIfValidModel = (model) => {
-  const supportedModels = getSupportedModels().split(",")
+  let str = getSupportedModels();
+  const supportedModels = str.split(",")
   return supportedModels.includes(model)
 }
 
@@ -51,6 +55,27 @@ const getOpenAIModel = () => {
     modelName: "gpt-5", // or "gpt-4-turbo", "gpt-3.5-turbo", etc.
   });
 
+  return model
+}
+
+const getGeminiModel = () => {
+  const latest = "gemini-2.0-flash-exp" // Latest and fastest
+  const pro = "gemini-1.5-pro" 
+  const flash = "gemini-1.5-flash" 
+  
+  let key = getGeminiKey()
+  if (getApiKey() !== "no-value" && getMode() == "cli") {
+    key = getApiKey()
+  }
+  
+  const model = new ChatGoogleGenerativeAI({
+    apiKey: key,
+    model: latest,
+    temperature: 0.2,
+    maxOutputTokens: 32000,
+    streaming: true
+  });
+  
   return model
 }
  

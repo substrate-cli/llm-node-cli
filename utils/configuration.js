@@ -40,6 +40,10 @@ export const getOpenAIKey = () => {
   return process.env.OPENAI_API_KEY || ""
 }
 
+export const getGeminiKey = () => {
+  return process.env.GEMINI_API_KEY || ""
+}
+
 export const getDefaultLLM = () => {
   return process.env.DEFAULT_LLM || "anthropic"
 }
@@ -65,5 +69,6 @@ export const getEnvironment = () => {
 }
 
 export const getSupportedModels = () => {
-  return process.env.SUPPORTED_LLMS
+  const models = process.env.SUPPORTED_LLMS
+  return models.replace(/\s+/g, "")
 }

@@ -24,7 +24,6 @@ class CodeGeneration {
       console.log("Usage metadata => ",llmResponse?.usage_metadata)
       let raw = llmResponse.content
       raw = raw.replace(/^```(?:json)?\s*|\s*```$/g, "");
-      console.log(raw, "hhhhhhhh")
       const result = JSON.parse(raw);
       
       /// for streaming -----

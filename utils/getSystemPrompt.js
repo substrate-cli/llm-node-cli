@@ -460,7 +460,7 @@ Return a **valid JSON object only** (no markdown or comments) with this exact fo
 - The return response should not contain any escape characters and should be replaced as shown below:
 - Do NOT output raw line breaks inside string values; always use \n instead.
 Do not write characters as it is in response for example " double quotes should be escaped as \" to prevent errors in json parsing. - In the "code" field of each file, always output actual newlines instead of escaped characters (do not use \n, use real line breaks).
-Return a fully working website clone ready to run after installing dependencies. Only output raw valid parse-able JSON and nothing else`
+Return a fully working frontend app in the specified structure. Ensure it's ready to run after installing dependencies. Only output valid raw JSON — no backslashes, no carets, just clean raw JSON.`
 
 return systemPromptForClone
 }

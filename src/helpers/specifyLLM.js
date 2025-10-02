@@ -29,7 +29,6 @@ export const checkIfValidModel = (model) => {
 
 const getAnthropicModel = () => {
   const latest = "claude-opus-4-1-20250805"//4.1
-  const old = "claude-opus-4-20250514" //4
   let key = getAnthropicKey()
   if (getApiKey() !== "no-value" && getMode() == "cli") {
     key = getApiKey()
@@ -60,8 +59,8 @@ const getOpenAIModel = () => {
 
 const getGeminiModel = () => {
   const latest = "gemini-2.0-flash-exp" // Latest and fastest
-  const pro = "gemini-1.5-pro" 
-  const flash = "gemini-1.5-flash" 
+  // const pro = "gemini-1.5-pro" 
+  // const flash = "gemini-1.5-flash" 
   
   let key = getGeminiKey()
   if (getApiKey() !== "no-value" && getMode() == "cli") {

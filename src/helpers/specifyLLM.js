@@ -51,7 +51,7 @@ const getOpenAIModel = () => {
   }
   const model = new ChatOpenAI({
     openAIApiKey: key,
-    modelName: "gpt-5", // or "gpt-4-turbo", "gpt-3.5-turbo", etc.
+    modelName: "gpt-5"
   });
 
   return model

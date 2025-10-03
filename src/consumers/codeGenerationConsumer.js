@@ -19,6 +19,7 @@ class CodeGeneration {
     ];
       
     try {
+      console.log("assigning task to llm...")
       let llmResponse = await this.model.invoke(messages)
       console.log("Usage metadata => ",llmResponse?.usage_metadata)
       let raw = llmResponse.content

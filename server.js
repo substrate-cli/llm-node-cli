@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { getPort, getSafeOrigins } from './utils/configuration.js';
 import { setupAMQPConnection } from './connections/setupamqp.js';
+import { errorHandler } from './webhooks/callApiWebhook.js';
 
 const app = express()
 const router = express.Router()
@@ -17,8 +18,29 @@ const corsOptions = {
 };
 
 
+process.on("uncaughtException", async(err) => {
+  console.error("Uncaught Exception detected:", err);
+  await errorHandler("finished", "cluster init failed", "uncaught exception")
+  // optionally exit after logging
+  process.exit(1);
+});
+
+process.on("unhandledRejection", async(reason, promise) => {
+  console.error("Unhandled Promise Rejection:", reason);
+  await errorHandler("finished", "cluster init failed", "unhandled rejection")
+  // optionally exit after logging
+  process.exit(1);
+});
+
+
 app.use(express.json())
 app.use(cors(corsOptions))
+
+router.get("/live", (req, res) => {
+   return res.send("llm-node, 1.0.0")
+})
+
+app.use(router)
 
 app.use((req, res, next) => {
   return res.status(404).json({
@@ -47,10 +69,3 @@ app.listen(PORT, (error) => {
 		console.log('Connection error')
 	 }
 })
-
-router.get("/", (req, res) => {
-   return res.send("llm-node, 1.0.0")
-})
-
-
-app.use(router)

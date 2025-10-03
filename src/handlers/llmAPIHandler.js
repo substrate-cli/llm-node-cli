@@ -2,43 +2,13 @@ import { getCurrentModel } from "../../utils/configuration.js";
 import { errorHandler } from "../../webhooks/callApiWebhook.js";
 import CodeGeneration from "../consumers/codeGenerationConsumer.js";
 
-// export async function callLLMAPI(prompt, sysPrompt) {
-//   errorCount++;
-//   let responsetoconsumer = {};
-//   const model = getCurrentModel()
-//   if (errorCount < 4) {
-//     try {
-//       const codeGen = new CodeGeneration(prompt, model, sysPrompt);
-//       const res = await codeGen.initiateGeneration();
-
-//       if (res?.status === "finished") {
-//         responsetoconsumer.status = "finished";
-//         responsetoconsumer.code = res.code
-//         return responsetoconsumer;
-//       } else if (res?.status === "failed") {
-//         console.log("LLM Call failed, retrying code generation, retry count => ",errorCount)
-//         return await callLLMAPI(prompt);
-//       }
-//     } catch (err) {
-//       errorCount = 0
-//       responsetoconsumer.status = "failed"
-//       return responsetoconsumer
-//     }
-//   } 
-  
-//   errorCount = 0;
-//   responsetoconsumer.status = "failed";
-//   return responsetoconsumer;
-// }
-
 export async function callLLMAPI(prompt, sysPrompt) {
   let errorCount = 0;
   let responsetoconsumer = {};
-  const model = getCurrentModel()
+  const model = getCurrentModel().toLowerCase();
     try {
       const codeGen = new CodeGeneration(prompt, model, sysPrompt);
       const res = await codeGeneration(codeGen, 0)
-      
       if (res?.status === "finished") {
         responsetoconsumer.status = "finished";
         responsetoconsumer.code = res.code

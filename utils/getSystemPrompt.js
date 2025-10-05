@@ -157,7 +157,8 @@ ${backendStruct}
         "tailwind.config.js": { "code": <code> },
         "next.config.ts": { "code": <code> }
       },
-     "libraries": ["...infer all the required third party libraries needed, only third party libraries like shadcn, luicide icons if used otherwise dont..."]
+      "libraries": ["...infer all the required third party libraries needed, only third party libraries like shadcn, luicide icons if used otherwise dont..."], 
+      "additionalCommands": ["...infer only the required commands that must be executed using npx (e.g., 'shadcn@latest add input') based on what is referenced in the code. Do not include initialization commands, e.g., 'shadcn@latest init'. If no additional commands are needed, return an empty array []..."]
     }
   }
 - The number of components is not fixed. Create as many components as necessary for a clean, modular, and production-ready UI.
@@ -271,7 +272,8 @@ export const getSystemPromptForUI = () => {
         "tailwind.config.js": { "code": <code> },
         "next.config.ts": { "code": <code> }
       },
-     "libraries": ["...infer all the required third party libraries needed, only third party libraries like shadcn, luicide icons if used otherwise dont..."]
+      "libraries": ["...infer all the required third party libraries needed, only third party libraries like react, lucide-react, radix-ui, etc. — installed via npm or yarn..."], 
+      "additionalCommands": ["...infer only the required commands that must be executed using npx (e.g., 'shadcn@latest add input') based on what is referenced in the code. Do not include initialization commands, e.g., 'shadcn@latest init'. If no additional commands are needed, return an empty array []..."]
     }
   }
 - The number of components is not fixed. Create as many components as necessary for a clean, modular, and production-ready UI.

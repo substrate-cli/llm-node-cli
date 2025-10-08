@@ -58,7 +58,7 @@ const getOpenAIModel = () => {
 }
 
 const getGeminiModel = () => {
-  const latest = "gemini-2.0-flash-exp" // Latest and fastest
+  const latest = "gemini-2.5-flash" // Latest and fastest
   // const pro = "gemini-1.5-pro" 
   // const flash = "gemini-1.5-flash" 
   

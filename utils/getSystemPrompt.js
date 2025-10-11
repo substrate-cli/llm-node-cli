@@ -188,7 +188,7 @@ ${backendStruct}
 - Use TypeScript for all files
 - Use Tailwind CSS
 - Use semantic HTML and responsive design
-- Add 'use client' when using client-side features
+- Add 'use client' when using client-side features, very very IMPORTANT.
 - No config or public folder files
 - Include TypeScript interfaces and types
 - Use proper imports and modular architecture
@@ -235,7 +235,7 @@ ${backendStruct}
 3. Only return a valid raw JSON
 4. Every component and file must contain real, working code
 5. All imports should be correct and complete
-6. Use image URLs from trusted sources like Unsplash or other CDNs. Also, configure next.config.ts to support remote image domains — either by explicitly listing them in the images.domains array or instructing users how to extend it if new domains are used.
+6. Use image URLs from trusted sources like Unsplash or other CDNs. Always include the following in or next.config.ts: images: { remotePatterns: [{ protocol: 'https', hostname: '**' }] }
 
 Return a fully working frontend app in the specified structure. Ensure it's ready to run after installing dependencies. Only output valid raw JSON — no backslashes, no carets, just clean raw JSON.
 `
@@ -284,7 +284,7 @@ export const getSystemPromptForUI = () => {
 - Use TypeScript for all files
 - Use Tailwind CSS
 - Use semantic HTML and responsive design
-- Add 'use client' when using client-side features
+- Add 'use client' when using client-side features, very very IMPORTANT.
 - No config or public folder files
 - Include TypeScript interfaces and types
 - Use proper imports and modular architecture
@@ -334,7 +334,7 @@ export const getSystemPromptForUI = () => {
 3. Only return a valid raw JSON
 4. Every component and file must contain real, working code
 5. All imports should be correct and complete
-6. Use image URLs from trusted sources like Unsplash or other CDNs. Also, configure next.config.js to support remote image domains — either by explicitly listing them in the images.domains array or instructing users how to extend it if new domains are used.
+6. Use image URLs from trusted sources like Unsplash or other CDNs. Always include the following in next.config.ts: images: { remotePatterns: [{ protocol: 'https', hostname: '**' }] }
 7. Never generate JSX or React components inside plain .ts/.ts utility files — only use valid TypeScript/JSON objects.
 Return a fully working frontend app in the specified structure. Ensure it's ready to run after installing dependencies. Only output valid raw JSON — no backslashes, no carets, just clean raw JSON.
 `
@@ -374,7 +374,7 @@ Return a **valid JSON object only** (no markdown or comments) with this exact fo
   * Accessibility and UX considerations
   * Notable performance considerations (memoization, virtualization, dynamic imports)
   * User-friendly description of imports
-  * Use images from unsplash or trusted source if image is not provided in the user prompt. Also which ever source used for images should be added in next.config.js
+  * Use images from unsplash or trusted source if image is not provided in the user prompt. Always include the following in or next.config.ts: images: { remotePatterns: [{ protocol: 'https', hostname: '**' }] }
   * "imports": human-readable explanation of all imports, file paths, and why each import is needed
   * Ensure full responsiveness using Tailwind breakpoints ("sm:", "md:", "lg:", etc.)
   * Add all the custom classes inside tailwind.config properly to prevent @layer directive error
@@ -400,7 +400,7 @@ Return a **valid JSON object only** (no markdown or comments) with this exact fo
 - Use TypeScript for all files
 - Use Tailwind CSS
 - Use semantic HTML and responsive design
-- Add 'use client' when using client-side features
+- Add 'use client' when using client-side features, very very IMPORTANT.
 - No config or public folder files
 - Include TypeScript interfaces and types
 - Use proper imports and modular architecture

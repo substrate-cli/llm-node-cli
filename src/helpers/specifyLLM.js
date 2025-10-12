@@ -58,7 +58,7 @@ const getOpenAIModel = () => {
 }
 
 const getGeminiModel = () => {
-  const latest = "gemini-2.5-flash"
+  const latest = "gemini-2.5-pro"
   
   let key = getGeminiKey()
   if (getApiKey() !== "no-value" && getMode() == "cli") {

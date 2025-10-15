@@ -34,16 +34,16 @@ async function codeGeneration(codeGen, errorCount = 0) {
     if (res?.status == "failed") {
       if (errorCount < 4) {
         console.log("LLM Call failed, retrying code generation, retry count => ",errorCount)
-        await errorHandler("finished", "failed at code generation, retrying once again, DO NOT QUIT", "cluster init failed, retrying")
+        await errorHandler("finished", "failed at code generation, retrying once again, DO NOT QUIT", "cluster init failed, retrying", true)
         return await codeGeneration(codeGen, errorCount)
       }
     }
    } catch(err) {
-     console.log("error occured while code gen.")
+     console.log("error occurred while code gen.")
      console.log(err)
      if (errorCount<4) {
        console.log("LLM Call failed, retrying code generation, retry count => ",errorCount)
-       await errorHandler("finished", "failed at code generation, retrying once again, DO NOT QUIT", "cluster init failed, retrying")
+       await errorHandler("finished", "failed at code generation, retrying once again, DO NOT QUIT", "cluster init failed, retrying", true)
        return await codeGeneration(codeGen, errorCount)
      }
   }

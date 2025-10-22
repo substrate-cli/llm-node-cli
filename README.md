@@ -21,6 +21,7 @@ AMQP_URL="amqp://guest:guest@localhost:5672/"
 # run llm-node
 
 ```bash
+npm i
 npm run dev
 ```
 
